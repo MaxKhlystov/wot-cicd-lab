@@ -20,14 +20,14 @@ class Command(BaseCommand):
         tanks_data = [
             ('IS-7', 'HT', 'USSR', 10),
             ('E 100', 'HT', 'Germany', 10),
-            ('M103', 'HT', 'USA', 10),
+            ('M103', 'HT', 'USA', 9),
             ('T-54 first prototype', 'MT', 'USSR', 8),
-            ('Leopard 1', 'MT', 'Germany', 8),
+            ('Leopard 1', 'MT', 'Germany', 10),
             ('Patton', 'MT', 'USA', 6),
-            ('AMX 13 90', 'LT', 'France', 8),
+            ('AMX 13 90', 'LT', 'France', 9),
             ('T2 Light Tank', 'LT', 'USA', 2),
             ('Object 268', 'TD', 'USSR', 10),
-            ('G.W. Panther', 'SPG', 'Germany', 8),
+            ('G.W. Panther', 'SPG', 'Germany', 7),
         ]
         tanks = {}
         for name, ttype, nation, tier in tanks_data:
