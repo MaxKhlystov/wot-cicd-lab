@@ -2,10 +2,9 @@ pipeline {
     agent any
     
     environment {
-        // !!! ЗАМЕНИ ЭТОТ ПУТЬ НА СВОЙ РЕАЛЬНЫЙ ПУТЬ К python.exe !!!
-        // Пример: 'C:\\Users\\Max\\AppData\\Local\\Programs\\Python\\Python311\\python.exe'
+        // ВАЖНО: Используем прямые слеши (/). Windows их понимает, а Groovy не пытается их экранировать.
+        // Проверь, что путь maksi точный (иногда бывает Max или другое имя пользователя)
         PYTHON_PATH = 'C:/Users/maksi/AppData/Local/Programs/Python/Python313/python.exe'
-        
         DJANGO_SETTINGS_MODULE = 'config.settings'
     }
     
@@ -20,25 +19,24 @@ pipeline {
         stage('Backend Setup') {
             steps {
                 echo '🐍 Настройка Python окружения...'
-                // Используем абсолютный путь для создания venv
-                bat '"${PYTHON_PATH}" -m venv venv'
-                // Используем python внутри созданного venv
-                bat 'venv\\Scripts\\python.exe -m pip install --upgrade pip'
-                bat 'venv\\Scripts\\python.exe -m pip install -r requirements.txt'
+                // ВАЖНО: Двойные кавычки " " вокруг всей команды заставляют Groovy подставить реальный путь!
+                bat "\"${PYTHON_PATH}\" -m venv venv"
+                bat "venv\\Scripts\\python.exe -m pip install --upgrade pip"
+                bat "venv\\Scripts\\python.exe -m pip install -r requirements.txt"
             }
         }
         
         stage('Database Migration') {
             steps {
                 echo '🗄️ Применение миграций базы данных...'
-                bat 'venv\\Scripts\\python.exe manage.py migrate --noinput'
+                bat "venv\\Scripts\\python.exe manage.py migrate --noinput"
             }
         }
         
         stage('Backend Tests') {
             steps {
                 echo '🧪 Запуск тестов Django...'
-                bat 'venv\\Scripts\\python.exe manage.py test --verbosity=2'
+                bat "venv\\Scripts\\python.exe manage.py test --verbosity=2"
             }
         }
         
