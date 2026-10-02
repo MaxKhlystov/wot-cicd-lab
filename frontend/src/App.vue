@@ -28,72 +28,70 @@
 
     <!-- Секция Танки -->
     <section class="section">
-      <div class="section-header">
-        <h2>🛡️ Ангар техники</h2>
-        <button class="btn" @click="loadTanks" :disabled="loadingTanks">
-          {{ loadingTanks ? 'Загрузка...' : 'Загрузить танки' }}
-        </button>
-      </div>
-      
-      <div v-if="tanks.length > 0" class="cards-grid">
-        <div v-for="tank in tanks" :key="tank.id" class="tank-card">
-          <div class="tank-tier">LVL {{ tank.tier }}</div>
-          <h3 class="tank-name">{{ tank.name }}</h3>
-          <div class="tank-info">
-            <span class="badge" :class="tank.tank_type.toLowerCase()">{{ getTypeName(tank.tank_type) }}</span>
-            <span class="nation">{{ getNationFlag(tank.nation) }} {{ tank.nation }}</span>
+      <div class="section-inner">
+        <div class="section-header">
+          <h2>🛡️ Ангар техники</h2>
+          <button class="btn" @click="loadTanks" :disabled="loadingTanks">
+            {{ loadingTanks ? 'Загрузка...' : 'Загрузить танки' }}
+          </button>
+        </div>
+        
+        <div v-if="tanks.length > 0" class="cards-grid">
+          <div v-for="tank in tanks" :key="tank.id" class="tank-card">
+            <div class="tank-tier">LVL {{ tank.tier }}</div>
+            <h3 class="tank-name">{{ tank.name }}</h3>
+            <div class="tank-info">
+              <span class="badge" :class="tank.tank_type.toLowerCase()">{{ getTypeName(tank.tank_type) }}</span>
+              <span class="nation">{{ getNationFlag(tank.nation) }} {{ tank.nation }}</span>
+            </div>
           </div>
         </div>
-      </div>
-      <div v-else-if="!loadingTanks" class="empty-state">
-        Нажмите кнопку, чтобы загрузить танки из базы данных
+        <div v-else-if="!loadingTanks" class="empty-state">
+          Нажмите кнопку, чтобы загрузить танки из базы данных
+        </div>
       </div>
     </section>
 
     <!-- Секция Игроки -->
     <section class="section section-dark">
-      <div class="section-header">
-        <h2>👥 Командиры</h2>
-        <button class="btn" @click="loadPlayers" :disabled="loadingPlayers">
-          {{ loadingPlayers ? 'Загрузка...' : 'Загрузить игроков' }}
-        </button>
-      </div>
-      
-      <div v-if="players.length > 0" class="players-grid">
-        <div v-for="player in players" :key="player.id" class="player-card">
-          <div class="player-avatar">
-            {{ player.nickname.charAt(0).toUpperCase() }}
-          </div>
-          <div class="player-info">
-            <h3 class="player-name">{{ player.nickname }}</h3>
-            <div class="player-stats">
-              <div class="player-stat">
-                <span class="stat-num">{{ player.battles }}</span>
-                <span class="stat-text">боёв</span>
-              </div>
-              <div class="player-stat">
-                <span class="stat-num">{{ player.wins }}</span>
-                <span class="stat-text">побед</span>
-              </div>
+      <div class="section-inner">
+        <div class="section-header">
+          <h2>👥 Командиры</h2>
+          <button class="btn" @click="loadPlayers" :disabled="loadingPlayers">
+            {{ loadingPlayers ? 'Загрузка...' : 'Загрузить игроков' }}
+          </button>
+        </div>
+        
+        <div v-if="players.length > 0" class="players-grid">
+          <div v-for="player in players" :key="player.id" class="player-card">
+            <div class="player-avatar">
+              {{ player.nickname.charAt(0).toUpperCase() }}
             </div>
-            <div class="winrate-bar">
-              <div class="winrate-fill" :style="{ width: getWinrate(player) + '%' }">
-                <span class="winrate-text">{{ getWinrate(player) }}%</span>
+            <div class="player-info">
+              <h3 class="player-name">{{ player.nickname }}</h3>
+              <div class="player-stats">
+                <div class="player-stat">
+                  <span class="stat-num">{{ player.battles }}</span>
+                  <span class="stat-text">боёв</span>
+                </div>
+                <div class="player-stat">
+                  <span class="stat-num">{{ player.wins }}</span>
+                  <span class="stat-text">побед</span>
+                </div>
+              </div>
+              <div class="winrate-bar">
+                <div class="winrate-fill" :style="{ width: getWinrate(player) + '%' }">
+                  <span class="winrate-text">{{ getWinrate(player) }}%</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div v-else-if="!loadingPlayers" class="empty-state">
-        Нажмите кнопку, чтобы загрузить игроков из базы данных
+        <div v-else-if="!loadingPlayers" class="empty-state">
+          Нажмите кнопку, чтобы загрузить игроков из базы данных
+        </div>
       </div>
     </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <p>Лабораторная работа №1 • CI/CD с Jenkins • 2026</p>
-      <p class="footer-tech">Django REST Framework + Vue.js + SQLite</p>
-    </footer>
   </div>
 </template>
 
@@ -163,10 +161,10 @@ export default {
       const flags = {
         'USSR': '☭',
         'Germany': '🇩🇪',
-        'USA': '🇺🇸',
+        'USA': '🇺',
         'UK': '🇬🇧',
         'France': '🇫🇷',
-        'Japan': '🇯🇵',
+        'Japan': '🇯',
         'China': '🇨🇳'
       }
       return flags[nation] || '🏳️'
@@ -182,13 +180,23 @@ export default {
   box-sizing: border-box;
 }
 
-body {
+html, body {
+  width: 100%;
   background: #0f1419;
   color: #e0e0e0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Сброс стандартных стилей Vue-шаблона, чтобы ничего не смещалось */
+#app {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .app {
+  width: 100%;
   min-height: 100vh;
 }
 
@@ -270,18 +278,19 @@ body {
   letter-spacing: 1px;
 }
 
-/* Секции */
+/* Секции: фон на всю ширину, контент по центру через section-inner */
 .section {
+  width: 100%;
   padding: 60px 20px;
+}
+
+.section-inner {
   max-width: 1200px;
   margin: 0 auto;
 }
 
 .section-dark {
   background: #14191f;
-  max-width: 100%;
-  padding-left: calc((100% - 1200px) / 2 + 20px);
-  padding-right: calc((100% - 1200px) / 2 + 20px);
 }
 
 .section-header {
@@ -510,26 +519,6 @@ body {
   font-style: italic;
   border: 1px dashed #2d3e2d;
   border-radius: 8px;
-}
-
-/* Footer */
-.footer {
-  background: #0a0d10;
-  padding: 30px 20px;
-  text-align: center;
-  border-top: 2px solid #d4a017;
-  margin-top: 40px;
-}
-
-.footer p {
-  color: #a0a0a0;
-  margin-bottom: 5px;
-}
-
-.footer-tech {
-  font-size: 0.85rem;
-  color: #606060;
-  letter-spacing: 1px;
 }
 
 /* Адаптивность */

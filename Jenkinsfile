@@ -4,7 +4,6 @@ pipeline {
     environment {
         PYTHON_PATH = 'C:/Users/maksi/AppData/Local/Programs/Python/Python313/python.exe'
         DJANGO_SETTINGS_MODULE = 'config.settings'
-        // Путь к папке, где лежит node.exe и npm.cmd (без самого имени файла)
         NODE_DIR = 'G:\\Apps\\AllWithWEB\\nodejs'
     }
     
@@ -32,6 +31,13 @@ pipeline {
             }
         }
         
+        stage('Seed Database') {
+            steps {
+                echo '🌱 Генерация тестовых данных в базу...'
+                bat "venv\\Scripts\\python.exe manage.py seed_db"
+            }
+        }
+        
         stage('Backend Tests') {
             steps {
                 echo '🧪 Запуск тестов Django...'
@@ -43,7 +49,6 @@ pipeline {
             steps {
                 echo '📦 Установка зависимостей Vue...'
                 dir('frontend') {
-                    // Временно добавляем Node.js в PATH и запускаем npm install
                     bat "set PATH=${NODE_DIR};%PATH% && npm install"
                 }
             }
@@ -53,7 +58,6 @@ pipeline {
             steps {
                 echo '🏗️ Сборка Vue приложения...'
                 dir('frontend') {
-                    // Временно добавляем Node.js в PATH и запускаем сборку
                     bat "set PATH=${NODE_DIR};%PATH% && npm run build"
                 }
             }
