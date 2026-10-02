@@ -3,9 +3,9 @@ pipeline {
     
     environment {
         PYTHON_PATH = 'C:/Users/maksi/AppData/Local/Programs/Python/Python313/python.exe'
-        NPM_PATH = 'G:/Apps/AllWithWEB/nodejs/npm.cmd' 
-        
         DJANGO_SETTINGS_MODULE = 'config.settings'
+        // Путь к папке, где лежит node.exe и npm.cmd (без самого имени файла)
+        NODE_DIR = 'G:\\Apps\\AllWithWEB\\nodejs'
     }
     
     stages {
@@ -43,8 +43,8 @@ pipeline {
             steps {
                 echo '📦 Установка зависимостей Vue...'
                 dir('frontend') {
-                    // Используем абсолютный путь к npm с двойными кавычками для подстановки переменной
-                    bat "\"${NPM_PATH}\" install"
+                    // Временно добавляем Node.js в PATH и запускаем npm install
+                    bat "set PATH=${NODE_DIR};%PATH% && npm install"
                 }
             }
         }
@@ -53,7 +53,8 @@ pipeline {
             steps {
                 echo '🏗️ Сборка Vue приложения...'
                 dir('frontend') {
-                    bat "\"${NPM_PATH}\" run build"
+                    // Временно добавляем Node.js в PATH и запускаем сборку
+                    bat "set PATH=${NODE_DIR};%PATH% && npm run build"
                 }
             }
         }
