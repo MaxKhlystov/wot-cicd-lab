@@ -2,9 +2,9 @@ pipeline {
     agent any
     
     environment {
-        // ВАЖНО: Используем прямые слеши (/). Windows их понимает, а Groovy не пытается их экранировать.
-        // Проверь, что путь maksi точный (иногда бывает Max или другое имя пользователя)
         PYTHON_PATH = 'C:/Users/maksi/AppData/Local/Programs/Python/Python313/python.exe'
+        NPM_PATH = 'G:/Apps/AllWithWEB/nodejs/npm.cmd' 
+        
         DJANGO_SETTINGS_MODULE = 'config.settings'
     }
     
@@ -19,7 +19,6 @@ pipeline {
         stage('Backend Setup') {
             steps {
                 echo '🐍 Настройка Python окружения...'
-                // ВАЖНО: Двойные кавычки " " вокруг всей команды заставляют Groovy подставить реальный путь!
                 bat "\"${PYTHON_PATH}\" -m venv venv"
                 bat "venv\\Scripts\\python.exe -m pip install --upgrade pip"
                 bat "venv\\Scripts\\python.exe -m pip install -r requirements.txt"
@@ -44,7 +43,8 @@ pipeline {
             steps {
                 echo '📦 Установка зависимостей Vue...'
                 dir('frontend') {
-                    bat 'npm install'
+                    // Используем абсолютный путь к npm с двойными кавычками для подстановки переменной
+                    bat "\"${NPM_PATH}\" install"
                 }
             }
         }
@@ -53,7 +53,7 @@ pipeline {
             steps {
                 echo '🏗️ Сборка Vue приложения...'
                 dir('frontend') {
-                    bat 'npm run build'
+                    bat "\"${NPM_PATH}\" run build"
                 }
             }
         }
