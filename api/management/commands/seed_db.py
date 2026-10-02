@@ -8,15 +8,15 @@ class Command(BaseCommand):
 
     @transaction.atomic
     def handle(self, *args, **options):
-        self.stdout.write('🧹 Очистка старых данных...')
-        # Удаляем в порядке зависимостей (сначала те, кто ссылается на других)
+        self.stdout.write('Очистка старых данных...')
+        # Удаляем в порядке зависимостей
         Battle.objects.all().delete()
         Module.objects.all().delete()
         Player.objects.all().delete()
         Clan.objects.all().delete()
         Tank.objects.all().delete()
 
-        self.stdout.write('🛡️ Создание танков...')
+        self.stdout.write('Создание танков...')
         tanks_data = [
             ('IS-7', 'HT', 'USSR', 10),
             ('E 100', 'HT', 'Germany', 10),
@@ -35,7 +35,7 @@ class Command(BaseCommand):
                 name=name, tank_type=ttype, nation=nation, tier=tier
             )
 
-        self.stdout.write('🏰 Создание кланов...')
+        self.stdout.write('Создание кланов...')
         clans_data = [
             ('RUS', 'Red Storm', 1520),
             ('DEU', 'Panzer Division', 1480),
@@ -45,7 +45,7 @@ class Command(BaseCommand):
         for tag, name, rating in clans_data:
             clans[tag] = Clan.objects.create(tag=tag, name=name, rating=rating)
 
-        self.stdout.write('👥 Создание игроков...')
+        self.stdout.write('Создание игроков...')
         players_data = [
             ('Sniper_1945', 'RUS', 5200, 3120),
             ('TigerAce', 'DEU', 4800, 2640),
@@ -62,7 +62,7 @@ class Command(BaseCommand):
                 wins=wins,
             )
 
-        self.stdout.write('🔧 Создание модулей...')
+        self.stdout.write('Создание модулей...')
         modules_data = [
             ('IS-7', 'Двигатель В-12', 'Engine'),
             ('IS-7', 'Орудие С-70', 'Gun'),
@@ -78,7 +78,7 @@ class Command(BaseCommand):
                 tank=tanks[tank_name], name=mod_name, module_type=mod_type
             )
 
-        self.stdout.write('⚔️ Создание боёв...')
+        self.stdout.write('Создание боёв...')
         battles_data = [
             ('Sniper_1945', 'IS-7', 3200, True),
             ('Sniper_1945', 'Object 268', 2750, True),
@@ -100,7 +100,7 @@ class Command(BaseCommand):
             )
 
         self.stdout.write(self.style.SUCCESS(
-            f'✅ База наполнена: {Tank.objects.count()} танков, '
+            f'База наполнена: {Tank.objects.count()} танков, '
             f'{Clan.objects.count()} кланов, {Player.objects.count()} игроков, '
             f'{Module.objects.count()} модулей, {Battle.objects.count()} боёв.'
         ))
