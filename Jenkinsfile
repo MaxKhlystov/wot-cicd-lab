@@ -4,7 +4,7 @@ pipeline {
     environment {
         // !!! ЗАМЕНИ ЭТОТ ПУТЬ НА СВОЙ РЕАЛЬНЫЙ ПУТЬ К python.exe !!!
         // Пример: 'C:\\Users\\Max\\AppData\\Local\\Programs\\Python\\Python311\\python.exe'
-        PYTHON_PATH = 'C:\Users\maksi\AppData\Local\Programs\Python\Python313\python.exe' 
+        PYTHON_PATH = 'C:/Users/maksi/AppData/Local/Programs/Python/Python313/python.exe'
         
         DJANGO_SETTINGS_MODULE = 'config.settings'
     }
