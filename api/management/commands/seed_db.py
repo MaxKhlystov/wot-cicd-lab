@@ -28,6 +28,7 @@ class Command(BaseCommand):
             ('T2 Light Tank', 'LT', 'USA', 2),
             ('Object 268', 'TD', 'USSR', 10),
             ('G.W. Panther', 'SPG', 'Germany', 7),
+            ('Panther 8.8', 'MT', 'Germany', 8),
         ]
         tanks = {}
         for name, ttype, nation, tier in tanks_data:
